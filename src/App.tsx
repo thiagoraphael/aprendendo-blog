@@ -1,34 +1,97 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import { Header } from './components/Header'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { AdminRoute } from './components/AdminRoute'
+import { Home } from './pages/Home'
+import { Blog } from './pages/Blog'
+import { BlogPost } from './pages/BlogPost'
+import { Login } from './pages/Login'
+import { Dashboard } from './pages/Dashboard'
+import { Admin } from './pages/Admin'
+import { AdminPosts } from './pages/AdminPosts'
+import { AdminPostForm } from './pages/AdminPostForm'
+import { AdminDocuments } from './pages/AdminDocuments'
+import { AdminDocumentForm } from './pages/AdminDocumentForm'
+import { AdminTags } from './pages/AdminTags'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/admin/tags"
+            element={
+              <AdminRoute>
+                <AdminTags />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/posts"
+            element={
+              <AdminRoute>
+                <AdminPosts />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/posts/new"
+            element={
+              <AdminRoute>
+                <AdminPostForm />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/posts/edit/:id"
+            element={
+              <AdminRoute>
+                <AdminPostForm />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/documents"
+            element={
+              <AdminRoute>
+                <AdminDocuments />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/documents/new"
+            element={
+              <AdminRoute>
+                <AdminDocumentForm />
+              </AdminRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 
