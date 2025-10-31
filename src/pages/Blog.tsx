@@ -7,8 +7,9 @@ type Post = {
   title: string
   slug: string
   excerpt: string | null
+  content: string
   created_at: string
-  tags?: { name: string; slug: string }[]
+  tags?: { id: string; name: string; slug: string }[]
   coverImage?: string
 }
 
